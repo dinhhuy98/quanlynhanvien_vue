@@ -1,22 +1,29 @@
 <template>
-  <form action class="add-emplyoee-form" v-on:submit.prevent="addEmployee()">
+  <form action class="add-emplyoee-form" v-on:submit.prevent="editEmployee()">
     <div class="add-employee-content">
       <label for="employee-name">
         <b>Tên:</b>
       </label>
-      <input type="text" placeholder="Nhập tên" name="employee-name" v-model="employee.name" required />
+      <input type="text" placeholder="Nhập tên" name="employee-name"
+       v-bind:value="employeeSelected.name" required />
       <label for="employee-email">
         <b>Email:</b>
       </label>
-      <input type="employee-email" placeholder="Nhập email" name="employee-email" v-model="employee.email" required />
+      <input type="employee-email" placeholder="Nhập email" name="employee-email"
+      v-bind:value="employeeSelected.email"
+       />
       <label for="employee-phone">
         <b>SĐT:</b>
       </label>
-      <input type="text" placeholder="Nhập số điện thoại" name="employee-phone" v-model="employee.phone" required />
+      <input type="text" placeholder="Nhập số điện thoại" name="employee-phone"
+      v-bind:value="employeeSelected.phone"
+      />
       <label for="employee-address">
         <b>Địa chỉ:</b>
       </label>
-      <input type="text" placeholder="Nhập địa chỉ" name="employee-address" v-model="employee.address" required />
+      <input type="text" placeholder="Nhập địa chỉ" name="employee-address"
+      v-bind:value="employeeSelected.address"
+      />
       <div class="from-button">
         <button type="submit">Thêm mới</button>
         <button type="button" v-on:click="cancel()">Quay lại</button>
@@ -29,23 +36,28 @@
 export default {
   data() {
     return {
-      employee: {
+        employee: {
         id: "",
         name: "",
         email: "",
         phone: "",
         address: ""
-      }
+      },
     };
+  },
+  props:{
+      employeeSelected:{
+          type:Object,
+          default:null
+      }
   },
   methods: {
     cancel() {
       this.$emit("cancelEvent");
     },
-    addEmployee() {
-      let id = "NV" + Math.floor(Math.random() * 10000);
-      this.employee.id=id;
-      this.$emit("addEmployeeEvent", this.employee);
+    editEmployee() {
+        //console.log(this.employee);
+      this.$emit("editEmployeeEvent", this.employee);
     }
   }
 };
