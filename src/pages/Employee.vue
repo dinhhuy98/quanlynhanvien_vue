@@ -1,125 +1,105 @@
 <template>
-  <default-layout   v-bind:displayModal="displayModal"
-                    v-bind:modalTitle="modalTitle"
-                    v-bind:employee="employeeSelected"
-                    v-on:closeModalEvent="closeModal"
-                    v-on:addEmployeeEvent="addEmployee"
-    >
-    <div id="content">
-      <div class="page-title">
-        <h3>Danh mục nhân viên</h3>
+  <default-layout
+    v-bind:displayModal="displayModal"
+    v-bind:modalTitle="modalTitle"
+    v-on:closeModalEvent="closeModal"
+    v-on:addEmployeeEvent="addEmployee"
+  >
+    <template slot="content">
+      <div id="content">
+        <div class="page-title">
+          <h3>Danh mục nhân viên</h3>
+        </div>
+        <div class="page-body">
+          <div class="toolbar">
+            <button v-on:click="showAddEmployeeForm()">
+              <img src="../assets/img/add.png" alt />Thêm
+            </button>
+            <button v-on:click="showEditEmployeeForm()">
+              <img src="../assets/img/Edit16.png" alt />Sửa
+            </button>
+            <button v-on:click="deleteEmployee(rowSelected)">
+              <img src="../assets/img/delete-24.png" alt />Xóa
+            </button>
+          </div>
+          <div class="grid">
+            <table border="1" cellpadding="0">
+              <thead>
+                <tr>
+                  <th>Mã nhân viên</th>
+                  <th>Tên nhân viên</th>
+                  <th>Email</th>
+                  <th>SĐT</th>
+                  <th>Địa chỉ</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(employee,index) in listEmployee"
+                  v-bind:key="index"
+                  v-on:click="changeRowSelect(index)"
+                  v-bind:style="{backgroundColor:index==rowSelected? bgColorActive:bgColorDefault}"
+                >
+                  <td>{{employee.employeeId}}</td>
+                  <td>{{employee.employeeName}}</td>
+                  <td>{{employee.employeeEmail}}</td>
+                  <td>{{employee.employeePhone}}</td>
+                  <td>{{employee.employeeAddress}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="paging"></div>
+        </div>
       </div>
-      <div class="page-body">
-        <div class="toolbar">
-          <button v-on:click="showAddEmployeeForm()">
-            <img src="../assets/img/add.png" alt />Thêm
-          </button>
-          <button v-on:click="showEditEmployeeForm()">
-            <img src="../assets/img/Edit16.png" alt />Sửa
-          </button>
-          <button v-on:click="deleteEmployee(rowSelected)">
-            <img src="../assets/img/delete-24.png" alt />Xóa
-          </button>
-        </div>
-        <div class="grid">
-          <table border="1" cellpadding="0">
-            <thead>
-              <tr>
-                <th>Mã nhân viên</th>
-                <th>Tên nhân viên</th>
-                <th>Email</th>
-                <th>SĐT</th>
-                <th>Địa chỉ</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(employee,index) in listEmployee"
-                v-bind:key="index"
-                v-on:click="changeRowSelect(index)"
-                v-bind:style="{backgroundColor:index==rowSelected? bgColorActive:bgColorDefault}"
-              >
-                <td>{{employee.id}}</td>
-                <td>{{employee.name}}</td>
-                <td>{{employee.email}}</td>
-                <td>{{employee.phone}}</td>
-                <td>{{employee.address}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="paging">
-        </div>
-      </div>
-    </div>
+    </template>
+    <template slot="modal">
+      <add-employee-form
+        v-if="action==1"
+        v-on:cancelEvent="closeModal"
+        v-on:addEmployeeEvent="addEmployee"
+      ></add-employee-form>
+      <edit-employee-form
+        v-if="action==2"
+        v-bind:employee="employeeSelected"
+        v-on:cancelEvent="closeModal"
+        v-on:editEmployeeEvent="editEmployee"
+      ></edit-employee-form>
+    </template>
   </default-layout>
 </template>
 
 <script>
 import DefaultLayout from "../layout/DefaultLayout.vue";
+import AddEmployeeForm from "../components/AddEmployeeForm";
+import EditEmployeeForm from "../components/EditEmployeeForm";
+import axios from "axios";
 export default {
   name: "employee",
   components: {
-    "default-layout": DefaultLayout
+    "default-layout": DefaultLayout,
+    AddEmployeeForm,
+    EditEmployeeForm
   },
   data() {
     return {
-      listEmployee: [
-        {
-          id: "NV0001",
-          name: "Nguyen Van A",
-          email: "ljklj@gmail.com",
-          phone: "098378464",
-          address: "Cau Giay"
-        },
-        {
-          id: "NV0002",
-          name: "Nguyen Van A",
-          email: "ljklj@gmail.com",
-          phone: "098378464",
-          address: "Cau Giay"
-        },
-        {
-          id: "NV0003",
-          name: "Nguyen Van A",
-          email: "ljklj@gmail.com",
-          phone: "098378464",
-          address: "Cau Giay"
-        },
-        {
-          id: "NV0004",
-          name: "Nguyen Van A",
-          email: "ljklj@gmail.com",
-          phone: "098378464",
-          address: "Cau Giay"
-        },
-        {
-          id: "NV0005",
-          name: "Nguyen Van A",
-          email: "ljklj@gmail.com",
-          phone: "098378464",
-          address: "Cau Giay"
-        },
-        {
-          id: "NV0006",
-          name: "Nguyen Van A",
-          email: "ljklj@gmail.com",
-          phone: "098378464",
-          address: "Cau Giay"
-        }
-      ],
+      listEmployee:[],
       rowSelected: -1,
       bgColorActive: "#1b8bd4",
       bgColorDefault: "white",
       displayModal: "none",
       modalTitle: " ",
-      employeeSelected:null,
+      employeeSelected: null,
+      action: 1
     };
   },
   methods: {
     changeRowSelect(index) {
       this.rowSelected = index;
-      this.employeeSelected = this.listEmployee[this.rowSelected];
+      this.employeeSelected = Object.assign(
+        {},
+        this.listEmployee[this.rowSelected]
+      );
     },
 
     deleteEmployee(index) {
@@ -132,27 +112,77 @@ export default {
 
     showAddEmployeeForm() {
       //this.$emit("show-add-employee-form");
-      this.displayModal="block";
-      this.modalTitle="Thêm mới nhân viên";
+      this.action = 1;
+      this.displayModal = "block";
+      this.modalTitle = "Thêm mới nhân viên";
     },
-    closeModal(){
-      this.displayModal="none";
-    },
-
-    addEmployee(employee){
-      this.listEmployee.unshift(employee);
-      this.displayModal="none";
+    closeModal() {
+      this.displayModal = "none";
     },
 
-    showEditEmployeeForm(){
-        if(this.rowSelected>=0){
-          
-          this.displayModal="block";
-          this.modalTitle="Chỉnh sửa thông tin nhân viên"; 
-        }
-        else
-        alert("Vui lòng chọn nhân viên cần  sửa")
+    addEmployee(employee) {
+      //this.listEmployee.unshift(employee);
+      this.displayModal = "none";
+      console.log(employee);
+      try{
+        axios({
+          method:'post',
+          url:'https://localhost:44321/api/v1/employees',
+          data:{
+            employeeId : employee.employeeId,
+            employeeEmail : employee.employeeEmail,
+            employeeName : employee.employeeName,
+            employeePhone : employee.employeePhone,
+            employeeAddress : employee.employeeAddress
+          }
+        })
+        .then(response=>{
+          alert("Thêm mới thành công!");
+        })
+        .catch(e=>{
+
+        });
+      }
+      catch(error){
+
+      }
+
+    },
+
+    showEditEmployeeForm() {
+      this.action = 2;
+      if (this.rowSelected >= 0) {
+        this.displayModal = "block";
+        this.modalTitle = "Chỉnh sửa thông tin nhân viên";
+      } else alert("Vui lòng chọn nhân viên cần  sửa");
+    },
+    editEmployee(employee) {
+      this.listEmployee[this.rowSelected] = employee;
+      this.displayModal = "none";
     }
+  },
+
+  created() {
+   
+    axios
+      .get('https://localhost:44321/api/v1/employees')
+      .then(response => {
+        this.listEmployee = response.data;
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  },
+
+  beforeUpdate(){
+    axios
+      .get('https://localhost:44321/api/v1/employees')
+      .then(response => {
+        this.listEmployee = response.data;
+      })
+      .catch(e => {
+        console.log(e);
+      });
   }
 };
 </script>

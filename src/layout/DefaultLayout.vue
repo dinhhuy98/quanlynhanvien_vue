@@ -4,7 +4,7 @@
     <div class="wrapper">
       <side-bar></side-bar>
      <!-- <employee @show-add-employee-form="showAddEmployeeForm"></employee> -->
-     <slot ></slot>
+     <slot name="content"></slot>
     </div>
     <Footer></Footer>
     <div class="modal" v-bind:style="{display: displayModal}">
@@ -16,7 +16,7 @@
           <div class="modal-title">{{modalTitle}}</div>
         </div>
         <div class="modal-content-body">
-          <add-employee-form
+          <!-- <add-employee-form
             v-if="employee==null"
             v-on:cancelEvent="closeModal"
             v-on:addEmployeeEvent="addEmployee"
@@ -27,8 +27,8 @@
             v-on:cancelEvent="closeModal"
             v-on:editEmployeeEvent="editEmployee"
             
-          ></edit-employee-form>
-          
+          ></edit-employee-form> -->
+          <slot name="modal"></slot>
         </div>
       </div>
     </div>
@@ -56,10 +56,7 @@ export default {
       type: String,
       default:''
     },
-    employee:{
-      type:Object,
-      default:null,
-    }
+  
   },
   components: {
     Header,
@@ -75,14 +72,7 @@ export default {
     closeModal(){
       this.$emit('closeModalEvent');
     },
-    addEmployee(employee){
-      
-      this.$emit('addEmployeeEvent',employee);
-    },
-     editEmployee(employee){
-      
-      this.$emit('editEmployeeEvent',employee);
-    }
+ 
   }
 };
 </script>

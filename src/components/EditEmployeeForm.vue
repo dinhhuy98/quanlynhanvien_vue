@@ -5,27 +5,27 @@
         <b>Tên:</b>
       </label>
       <input type="text" placeholder="Nhập tên" name="employee-name"
-       v-bind:value="employeeSelected.name" required />
+       v-model="employee.name" required />
       <label for="employee-email">
         <b>Email:</b>
       </label>
       <input type="employee-email" placeholder="Nhập email" name="employee-email"
-      v-bind:value="employeeSelected.email"
+      v-model="employee.email"
        />
       <label for="employee-phone">
         <b>SĐT:</b>
       </label>
       <input type="text" placeholder="Nhập số điện thoại" name="employee-phone"
-      v-bind:value="employeeSelected.phone"
+      v-model="employee.phone"
       />
       <label for="employee-address">
         <b>Địa chỉ:</b>
       </label>
       <input type="text" placeholder="Nhập địa chỉ" name="employee-address"
-      v-bind:value="employeeSelected.address"
+      v-model="employee.address"
       />
       <div class="from-button">
-        <button type="submit">Thêm mới</button>
+        <button type="submit" >Cập nhật </button>
         <button type="button" v-on:click="cancel()">Quay lại</button>
       </div>
     </div>
@@ -36,17 +36,11 @@
 export default {
   data() {
     return {
-        employee: {
-        id: "",
-        name: "",
-        email: "",
-        phone: "",
-        address: ""
-      },
+       
     };
   },
   props:{
-      employeeSelected:{
+      employee:{
           type:Object,
           default:null
       }
@@ -56,8 +50,12 @@ export default {
       this.$emit("cancelEvent");
     },
     editEmployee() {
-        //console.log(this.employee);
-      this.$emit("editEmployeeEvent", this.employee);
+    //  this.employee.name= this.employeeAfterEdit.name;
+    //  this.employee.email= this.employeeAfterEdit.email;
+    //  this.employee.phone= this.employeeAfterEdit.phone;
+    //  this.employee.address= this.employeeAfterEdit.email;
+   
+    this.$emit("editEmployeeEvent",this.employee);    
     }
   }
 };

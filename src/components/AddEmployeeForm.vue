@@ -4,19 +4,19 @@
       <label for="employee-name">
         <b>Tên:</b>
       </label>
-      <input type="text" placeholder="Nhập tên" name="employee-name" v-model="employee.name" required />
+      <input type="text" placeholder="Nhập tên" name="employee-name" v-model="employee.employeeName" required />
       <label for="employee-email">
         <b>Email:</b>
       </label>
-      <input type="employee-email" placeholder="Nhập email" name="employee-email" v-model="employee.email" required />
+      <input type="employee-email" placeholder="Nhập email" name="employee-email" v-model="employee.employeeEmail" required />
       <label for="employee-phone">
         <b>SĐT:</b>
       </label>
-      <input type="text" placeholder="Nhập số điện thoại" name="employee-phone" v-model="employee.phone" required />
+      <input type="text" placeholder="Nhập số điện thoại" name="employee-phone" v-model="employee.employeePhone" required />
       <label for="employee-address">
         <b>Địa chỉ:</b>
       </label>
-      <input type="text" placeholder="Nhập địa chỉ" name="employee-address" v-model="employee.address" required />
+      <input type="text" placeholder="Nhập địa chỉ" name="employee-address" v-model="employee.employeeAddress" required />
       <div class="from-button">
         <button type="submit">Thêm mới</button>
         <button type="button" v-on:click="cancel()">Quay lại</button>
@@ -44,7 +44,7 @@ export default {
     },
     addEmployee() {
       let id = "NV" + Math.floor(Math.random() * 10000);
-      this.employee.id=id;
+      this.employee.employeeId=id;
       this.$emit("addEmployeeEvent", this.employee);
     }
   }
