@@ -85,12 +85,7 @@ export default {
   display: flex;
   flex-direction: row;
 }
-#content {
-  background-color: white;
-  height: 100%;
-  width: 85%;
-  position: relative;
-}
+
 
 .modal {
   display: block;

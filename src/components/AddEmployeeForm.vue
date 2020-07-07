@@ -43,8 +43,8 @@ export default {
       this.$emit("cancelEvent");
     },
     addEmployee() {
-      let id = "NV" + Math.floor(Math.random() * 10000);
-      this.employee.employeeId=id;
+      
+      this.employee.employeeId='';
       this.$emit("addEmployeeEvent", this.employee);
     }
   }

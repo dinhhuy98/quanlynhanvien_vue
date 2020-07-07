@@ -5,24 +5,24 @@
         <b>Tên:</b>
       </label>
       <input type="text" placeholder="Nhập tên" name="employee-name"
-       v-model="employee.name" required />
+       v-model="employee.employeeName" required />
       <label for="employee-email">
         <b>Email:</b>
       </label>
       <input type="employee-email" placeholder="Nhập email" name="employee-email"
-      v-model="employee.email"
+      v-model="employee.employeeEmail"
        />
       <label for="employee-phone">
         <b>SĐT:</b>
       </label>
       <input type="text" placeholder="Nhập số điện thoại" name="employee-phone"
-      v-model="employee.phone"
+      v-model="employee.employeePhone"
       />
       <label for="employee-address">
         <b>Địa chỉ:</b>
       </label>
       <input type="text" placeholder="Nhập địa chỉ" name="employee-address"
-      v-model="employee.address"
+      v-model="employee.employeeAddress"
       />
       <div class="from-button">
         <button type="submit" >Cập nhật </button>
